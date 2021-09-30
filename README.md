@@ -4,7 +4,17 @@ They say they best way to learn is teach. Or at least in my case my understandin
 
 Therefore this project will see code examples which show non-solid and solid coding examples.
 
-# Liskov Substition Principle - LSP
+# Single Responsibility Principle - SRP
+
+* There should be one reason for change
+
+# Open Closed Principle - OCP
+
+* Code is open to being extended
+* Code is closed to changes 
+
+
+# Liskov Substitution Principle - LSP
 
 * Subclasses and derived classes should be substitutable for the base/parent class
 * Objects are replaceable with instances of subtype without altering correctness
@@ -24,7 +34,7 @@ static void Main(string[] args)
 }
 ```
 
-The code runs without a problem. However there is a bug hiding. In fact there are may problems with this code genrally, especially a number of other SOLID principles which has been broken.
+The code runs without a problem. However there is a bug hiding. In fact there are may problems with this code generally, especially a number of other SOLID principles which has been broken.
 
 The output looks like the following which is correct.
 ```
@@ -58,7 +68,7 @@ Now lets work through the bear minimum we need to change step by step, to see ho
 
 We now have a ```LiskovGoodTwin``` class, but it starts out with the same evil as above.
 
-However this class will be modofied to not violate LSP.  
+However this class will be modified to not violate LSP.  
 
 First of all we create an interface ```iDrawableShape```
 ```
@@ -181,7 +191,7 @@ Warning	CS0108	'Square.Draw()' hides inherited member 'GeoShape.Draw()'. Use the
 Warning	CS0108	'Circle.Draw()' hides inherited member 'GeoShape.Draw()'. Use the new keyword if hiding was intended.	Liskov	...\Liskov\Liskov\LiskovGoodTwin.cs	71	Active
 ```
 
-We don't want those warnings because the code is not as clear as it might be. Easy fix. We mark the GeoShape Draw() method as virtual. Then mark the circle and sqaure classes version as override. 
+We don't want those warnings because the code is not as clear as it might be. Easy fix. We mark the GeoShape Draw() method as virtual. Then mark the circle and square classes version as override. 
 ```
 public override void Draw()
 public virtual void Draw()
@@ -216,6 +226,14 @@ We can see the full change here;
 Now we are no longer violating LSP.
 
 
+# Interface Segregation Principle
+
+* Do not force clients to implement methods they do not need too
+
+# Dependency Inversion Principle
+
+* High level entities depend on abstractions
+* High level modules not dependent on low level modules
 
 
 
