@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 
 
-namespace LiskovEvilA
+namespace LiskovEvilB
 {
-    class LiskovEvilTwin
+    class LiskovGoodTwin
     {
         List<GeoShape> shapes = new List<GeoShape>();
 
