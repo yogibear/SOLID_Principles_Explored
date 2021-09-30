@@ -15,10 +15,13 @@ namespace LiskovEvilA
 
         public void DisplayList()
         {
+            Console.WriteLine("EVIL TWIN");
+            Console.WriteLine("=========");
             foreach (GeoShape shape in shapes)
             {
                 GeoShape.DrawMyShape(shape);
             }
+            Console.WriteLine();
         }
     }
 
