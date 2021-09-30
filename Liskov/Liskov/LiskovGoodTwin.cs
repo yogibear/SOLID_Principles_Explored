@@ -15,6 +15,8 @@ namespace LiskovEvilB
 
         public void DisplayList()
         {
+            Console.WriteLine("GOOD TWIN");
+            Console.WriteLine("=========");
             foreach (GeoShape shape in shapes)
             {
                 GeoShape.DrawMyShape(shape);
@@ -22,9 +24,14 @@ namespace LiskovEvilB
         }
     }
 
+    interface iDrawableShape
+    {
+        void Draw();
+    }
+
     public enum TypeOfShape { non_shape, square, circle };
 
-    public class GeoShape
+    public class GeoShape : iDrawableShape
     {
         private TypeOfShape whichShapeAmI = TypeOfShape.non_shape;
         
@@ -37,6 +44,8 @@ namespace LiskovEvilB
             position = new Tuple<int,int>(x, y);
         }
 
+        public void Draw() { Console.WriteLine($"GeoShape at {position.Item1} , {position.Item1}"); }
+
         public static void DrawMyShape(GeoShape shapeToDraw)
         {
             switch (shapeToDraw.whichShapeAmI)
@@ -47,19 +56,22 @@ namespace LiskovEvilB
                 case TypeOfShape.circle:
                     (shapeToDraw as Circle).Draw();
                     break;
+                case TypeOfShape.non_shape:
+                    (shapeToDraw as GeoShape).Draw();
+                    break;
                 default:
                     break;
             }
         }
     }
 
-    public class Circle : GeoShape
+    public class Circle : GeoShape , iDrawableShape
     {
         public Circle(int x, int y) : base(x, y, TypeOfShape.circle) { }
         public void Draw() { Console.WriteLine($"Circle at {base.position.Item1} , {base.position.Item1}"); }
     }
 
-    public class Square : GeoShape
+    public class Square : GeoShape, iDrawableShape
     {
         public Square(int x, int y) : base(x, y, TypeOfShape.square) { }
         public void Draw() { Console.WriteLine($"Square at {base.position.Item1} , {base.position.Item1}"); }
