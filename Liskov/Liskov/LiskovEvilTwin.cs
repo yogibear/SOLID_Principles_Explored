@@ -47,7 +47,8 @@ namespace Liskov
                 case TypeOfShape.circle:
                     (shapeToDraw as Circle).Draw();
                     break;
-                default: return;
+                default:
+                    break;
             }
         }
     }
