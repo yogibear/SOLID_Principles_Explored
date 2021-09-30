@@ -124,7 +124,7 @@ Error	CS0535	'GeoShape' does not implement interface member 'iDrawableShape.Draw
 ```
 Which results because whilst circle and square have ```Draw()``` methods, ```GeoShape``` does not. Lets add one.
 ```
-        public void Draw() { Console.WriteLine($"Circle at {position.Item1} , {position.Item1}"); }
+			public void Draw() { Console.WriteLine($"GeoShape at {position.Item1} , {position.Item1}"); }
 ```
 However we still get the same output as before, GeoShape isn't listed but the others are. This is, of course because our switch statement doesn't cater for the GeoShape. Simple fix.
 ```
@@ -169,4 +169,50 @@ Circle at 10 , 10
 Square at 20 , 20
 GeoShape at 20 , 20
 ```
+However were are not finished yet because we now have two warnings.
+```
+Severity	Code	Description	Project	File	Line	Suppression State
+Warning	CS0108	'Square.Draw()' hides inherited member 'GeoShape.Draw()'. Use the new keyword if hiding was intended.	Liskov	D:\ProjectCode\Seminars\SOLID_Principles_Explored\Liskov\Liskov\LiskovGoodTwin.cs	77	Active
+Warning	CS0108	'Circle.Draw()' hides inherited member 'GeoShape.Draw()'. Use the new keyword if hiding was intended.	Liskov	D:\ProjectCode\Seminars\SOLID_Principles_Explored\Liskov\Liskov\LiskovGoodTwin.cs	71	Active
+```
 
+We don't want those warnings because the code is not as clear as it might be. Easy fix. We mark the GeoShape Draw() method as virtual. Then mark the circle and sqaure classes version as override. 
+```
+public override void Draw()
+public virtual void Draw()
+```
+
+We can see the full change here;
+
+```
+-        public void Draw() { Console.WriteLine($"GeoShape at {position.Item1} , {position.Item1}"); }
++        public virtual void Draw() { Console.WriteLine($"GeoShape at {position.Item1} , {position.Item1}"); }
+ 
+         public static void DrawMyShape(GeoShape shapeToDraw)
+         {
+             switch (shapeToDraw.whichShapeAmI)
+             {
+@@ -66,14 +66,14 @@ namespace LiskovEvilB
+     }
+ 
+     public class Circle : GeoShape , iDrawableShape
+     {
+         public Circle(int x, int y) : base(x, y, TypeOfShape.circle) { }
+-        public void Draw() { Console.WriteLine($"Circle at {base.position.Item1} , {base.position.Item1}"); }
++        public override void Draw() { Console.WriteLine($"Circle at {base.position.Item1} , {base.position.Item1}"); }
+     }
+ 
+     public class Square : GeoShape, iDrawableShape
+     {
+         public Square(int x, int y) : base(x, y, TypeOfShape.square) { }
+-        public void Draw() { Console.WriteLine($"Square at {base.position.Item1} , {base.position.Item1}"); }
++        public override void Draw() { Console.WriteLine($"Square at {base.position.Item1} , {base.position.Item1}"); }
+     }
+```
+
+
+
+
+
+
+## Other ways to confirm to LSP

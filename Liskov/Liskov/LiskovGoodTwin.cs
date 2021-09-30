@@ -44,7 +44,7 @@ namespace LiskovEvilB
             position = new Tuple<int,int>(x, y);
         }
 
-        public void Draw() { Console.WriteLine($"GeoShape at {position.Item1} , {position.Item1}"); }
+        public virtual void Draw() { Console.WriteLine($"GeoShape at {position.Item1} , {position.Item1}"); }
 
         public static void DrawMyShape(GeoShape shapeToDraw)
         {
@@ -57,7 +57,7 @@ namespace LiskovEvilB
                     (shapeToDraw as Circle).Draw();
                     break;
                 case TypeOfShape.non_shape:
-                    (shapeToDraw as GeoShape).Draw();
+                    shapeToDraw.Draw();
                     break;
                 default:
                     break;
@@ -68,12 +68,12 @@ namespace LiskovEvilB
     public class Circle : GeoShape , iDrawableShape
     {
         public Circle(int x, int y) : base(x, y, TypeOfShape.circle) { }
-        public void Draw() { Console.WriteLine($"Circle at {base.position.Item1} , {base.position.Item1}"); }
+        public override void Draw() { Console.WriteLine($"Circle at {base.position.Item1} , {base.position.Item1}"); }
     }
 
     public class Square : GeoShape, iDrawableShape
     {
         public Square(int x, int y) : base(x, y, TypeOfShape.square) { }
-        public void Draw() { Console.WriteLine($"Square at {base.position.Item1} , {base.position.Item1}"); }
+        public override void Draw() { Console.WriteLine($"Square at {base.position.Item1} , {base.position.Item1}"); }
     }
 }
