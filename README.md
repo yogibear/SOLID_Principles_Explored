@@ -1,29 +1,32 @@
-# SOLID_Principles_Explores
+# SOLID_Principles_Explored
 
 They say they best way to learn is teach. Or at least in my case my understanding is fairly good so I want to consolidate my own knowledge and share with others.
 
 Therefore this project will see code examples which show non-solid and solid coding examples.
 
-I will use .NET, and maybe WinForms if I need any GUIs.
-
 # Liskov Substition Principle - LSP
+
+* Subclasses and derived classes should be substitutable for the base/parent class
+* Objects are replaceable with instances of subtype without altering correctness
 
 ## Code which breaks Liskov
 
-If we set the code in ```Program.cs``` to look like the following. This makes use of the ```LiskovEveilTwin.cs``` class (and related entities).
+If you look at the LiskovEvilTwin.cs file you will see an example of code which breaks the Liskov Substitution Principle. 
+
+When the code in ```Program.cs``` looks like the following and run it. All looks ot be fine.
 ```
-        static void Main(string[] args)
-        {
-            LiskovEvilTwin evilTwin = new LiskovEvilTwin();
-            evilTwin.AddShape(new Circle(10, 10));
-            evilTwin.AddShape(new Square(20, 20));
-            evilTwin.DisplayList();
-        }
+static void Main(string[] args)
+{
+	LiskovEvilTwin evilTwin = new LiskovEvilTwin();
+	evilTwin.AddShape(new Circle(10, 10));
+	evilTwin.AddShape(new Square(20, 20));
+	evilTwin.DisplayList();
+}
 ```
 
-Then we will see the code runs without a problem. However there is a bug hiding. In fact there are may problems with this code genrally, especially a number of other SOLID principles which has been broken.
+The code runs without a problem. However there is a bug hiding. In fact there are may problems with this code genrally, especially a number of other SOLID principles which has been broken.
 
-The output should look like this.
+The output looks like the following which is correct.
 ```
 Circle at 10 , 10
 Square at 20 , 20
@@ -31,14 +34,14 @@ Square at 20 , 20
 
 However if we change the code in ```Program.cs``` to look like the following.
 ```
-        static void Main(string[] args)
-        {
-            LiskovEvilTwin evilTwin = new LiskovEvilTwin();
-            evilTwin.AddShape(new Circle(10, 10));
-            evilTwin.AddShape(new Square(20, 20));
-            evilTwin.AddShape(new GeoShape(20, 20));
-            evilTwin.DisplayList();
-        }
+static void Main(string[] args)
+{
+	LiskovEvilTwin evilTwin = new LiskovEvilTwin();
+	evilTwin.AddShape(new Circle(10, 10));
+	evilTwin.AddShape(new Square(20, 20));
+	evilTwin.AddShape(new GeoShape(20, 20));
+	evilTwin.DisplayList();
+}
 ```
 
 And then run it, we get the same output as before. Even though we have an extra shape.
@@ -47,25 +50,27 @@ Circle at 10 , 10
 Square at 20 , 20
 ```
 
-This is the sort of bug, which unless you have good testing could go un-noticed.
+This is the sort of bug which LSP helps you avoid.
 
 ## Fixing the broken code
 
-We now have a ```LiskovGoodTwin``` class, but he starts out with the same evil as above.
+Now lets work through the bear minimum we need to change step by step, to see how we fix this violation of LSP.
 
-However this class is willing to become good. So what is the minimum set of changes we need in order for the good twin to change to good from evil? 
+We now have a ```LiskovGoodTwin``` class, but it starts out with the same evil as above.
+
+However this class will be modofied to not violate LSP.  
 
 First of all we create an interface ```iDrawableShape```
 ```
-    interface iDrawableShape
-    {
-        void Draw();
-    }
+interface iDrawableShape
+{
+	void Draw();
+}
 ```
 
 Then we make sure all the classes implement it. Lets look at this.
 
-The Evil twin has these classe headers
+The before set of class headers
 ```
 public class GeoShape 
 public class Circle : GeoShape
@@ -172,8 +177,8 @@ GeoShape at 20 , 20
 However were are not finished yet because we now have two warnings.
 ```
 Severity	Code	Description	Project	File	Line	Suppression State
-Warning	CS0108	'Square.Draw()' hides inherited member 'GeoShape.Draw()'. Use the new keyword if hiding was intended.	Liskov	D:\ProjectCode\Seminars\SOLID_Principles_Explored\Liskov\Liskov\LiskovGoodTwin.cs	77	Active
-Warning	CS0108	'Circle.Draw()' hides inherited member 'GeoShape.Draw()'. Use the new keyword if hiding was intended.	Liskov	D:\ProjectCode\Seminars\SOLID_Principles_Explored\Liskov\Liskov\LiskovGoodTwin.cs	71	Active
+Warning	CS0108	'Square.Draw()' hides inherited member 'GeoShape.Draw()'. Use the new keyword if hiding was intended.	Liskov	...\Liskov\Liskov\LiskovGoodTwin.cs	77	Active
+Warning	CS0108	'Circle.Draw()' hides inherited member 'GeoShape.Draw()'. Use the new keyword if hiding was intended.	Liskov	...\Liskov\Liskov\LiskovGoodTwin.cs	71	Active
 ```
 
 We don't want those warnings because the code is not as clear as it might be. Easy fix. We mark the GeoShape Draw() method as virtual. Then mark the circle and sqaure classes version as override. 
@@ -183,7 +188,6 @@ public virtual void Draw()
 ```
 
 We can see the full change here;
-
 ```
 -        public void Draw() { Console.WriteLine($"GeoShape at {position.Item1} , {position.Item1}"); }
 +        public virtual void Draw() { Console.WriteLine($"GeoShape at {position.Item1} , {position.Item1}"); }
@@ -209,7 +213,7 @@ We can see the full change here;
 +        public override void Draw() { Console.WriteLine($"Square at {base.position.Item1} , {base.position.Item1}"); }
      }
 ```
-
+Now we are no longer violating LSP.
 
 
 
