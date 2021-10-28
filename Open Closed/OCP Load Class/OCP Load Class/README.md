@@ -6,9 +6,7 @@ The code in this project is there to demonstrate two ways the OCP principle coul
 
 ## OCP
 
-```
-The Open-Closed Principle (OCP) states that software entities (classes, modules, methods, etc.) should be open for extension, but closed for modification.
-``` [source](https://www.google.com/search?client=firefox-b-d&q=mark+down+quote)
+"In object-oriented programming, the open–closed principle states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification";[1] that is, such an entity can allow its behaviour to be extended without modifying its source code." [en.wikipedia.org](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle)
 
 These are examples and ideas for implementing OCP, they are not necessarily the best way to do it.
 
