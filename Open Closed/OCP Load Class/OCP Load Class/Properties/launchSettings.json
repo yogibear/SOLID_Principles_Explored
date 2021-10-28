@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OCP Load Class": {
+      "commandName": "Project",
+      "commandLineArgs": "ProductsConsumer"
+    }
+  }
+}
